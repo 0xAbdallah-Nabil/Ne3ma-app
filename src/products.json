@@ -13,29 +13,29 @@
   },
   {
     "id": 3,
+    "name": "جبنة مش 250 جرام",
+    "price": 30,
+    "barcode": "6775552300038"
+  },
+  {
+    "id": 4,
     "name": "قشطة بلدي 225 جرام",
     "price": 47,
     "barcode": "6775552300090"
   },
   {
-    "id": 4,
+    "id": 5,
     "name": "سمنة بلدي 1 كيلو",
     "price": 400,
     "barcode": "6775552300052"
   },
-  { "id": 5, "name": "سمنة بلدي 500 جرام", "price": 200, "barcode": null },
-  { "id": 6, "name": "سمنة بلدي 250 جرام", "price": 100, "barcode": null },
+  { "id": 6, "name": "سمنة بلدي 500 جرام", "price": 200, "barcode": null },
+  { "id": 7, "name": "سمنة بلدي 250 جرام", "price": 100, "barcode": null },
+  { "id": 8, "name": "مورتة 250 جرام", "price": 50, "barcode": null },
   {
-    "id": 7,
+    "id": 9,
     "name": "قريش بالتحابيش 2500 جرام",
     "price": 235,
     "barcode": null
-  },
-  {
-    "id": 8,
-    "name": "جبنة مش 250 جرام",
-    "price": 30,
-    "barcode": "6775552300038"
-  },
-  { "id": 9, "name": "مورتة 250 جرام", "price": 50, "barcode": null }
+  }
 ]

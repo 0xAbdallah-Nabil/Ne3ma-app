@@ -47,12 +47,13 @@ export default function App() {
 
   const totals = products.map((p, i) => p.price * (parseFloat(qty[ i ]) || 0));
   const grandTotal = totals.reduce((a, b) => a + b, 0);
+  const uniqueProducts = qty.filter((q) => (parseFloat(q) || 0) > 0).length;
 
   return (
     <div dir="rtl" className="min-h-screen bg-slate-100 text-slate-900">
       <div className="mx-auto max-w-xl p-4 pb-32">
         <header className="mb-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold">حاسبة المنتجات</h1>
+          <h1 className="text-xl font-bold text-blue-500">حاسبة منتجات اللبان نعمة</h1>
           <button
             onClick={() => setEditing((e) => !e)}
             className={`rounded-lg px-3 py-2 text-sm font-medium ${editing ? "bg-emerald-600 text-white" : "bg-white shadow-sm"
@@ -63,59 +64,63 @@ export default function App() {
         </header>
 
         <ul className="space-y-2">
-          {products.map((p, i) => (
-            <li
-              key={p.id}
-              className="grid grid-cols-[1fr_auto_auto] items-center gap-3 rounded-xl bg-white p-3 shadow-sm"
-            >
-              <div className="min-w-0">
-                {editing ? (
-                  <input
-                    value={p.name}
-                    onChange={(e) => update(i, { name: e.target.value })}
-                    className="w-full rounded border border-slate-300 px-2 py-1 text-sm"
-                  />
-                ) : (
-                  <div className="font-medium">{p.name}</div>
-                )}
-                {editing ? (
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    min={0}
-                    value={p.price || ""}
-                    placeholder="السعر"
-                    onChange={(e) =>
-                      update(i, { price: Math.max(0, parseFloat(e.target.value) || 0) })
-                    }
-                    className="mt-1 w-28 rounded border border-slate-300 px-2 py-1 text-sm"
-                  />
-                ) : (
-                  <div className="text-sm text-slate-500">السعر: {fmt(p.price)}</div>
-                )}
-              </div>
+          {products.map((p, i) => {
+            const selected = (parseFloat(qty[ i ]) || 0) > 0;
+            return (
+              <li
+                key={p.id}
+                className={`grid grid-cols-[1fr_auto_auto] items-center gap-3 rounded-xl p-3 shadow-sm transition-colors ${selected ? "bg-emerald-100 ring-1 ring-emerald-400" : "bg-white"
+                  }`}
+              >
+                <div className="min-w-0">
+                  {editing ? (
+                    <input
+                      value={p.name}
+                      onChange={(e) => update(i, { name: e.target.value })}
+                      className="w-full rounded border border-slate-300 bg-white px-2 py-1 text-sm"
+                    />
+                  ) : (
+                    <div className="font-medium">{p.name}</div>
+                  )}
+                  {editing ? (
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      value={p.price || ""}
+                      placeholder="السعر"
+                      onChange={(e) =>
+                        update(i, { price: Math.max(0, parseFloat(e.target.value) || 0) })
+                      }
+                      className="mt-1 w-28 rounded border border-slate-300 bg-white px-2 py-1 text-sm"
+                    />
+                  ) : (
+                    <div className="text-sm text-slate-500">السعر: {fmt(p.price)}</div>
+                  )}
+                </div>
 
-              <input
-                type="number"
-                inputMode="decimal"
-                min={0}
-                value={qty[ i ]}
-                placeholder="العدد"
-                onChange={(e) =>
-                  setQty((prev) => prev.map((q, idx) => (idx === i ? e.target.value : q)))
-                }
-                className="w-20 rounded-lg border border-slate-300 px-2 py-2 text-center text-lg"
-              />
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  value={qty[ i ]}
+                  placeholder="العدد"
+                  onChange={(e) =>
+                    setQty((prev) => prev.map((q, idx) => (idx === i ? e.target.value : q)))
+                  }
+                  className="w-20 rounded-lg border border-slate-300 bg-white px-2 py-2 text-center text-lg"
+                />
 
-              <div className="w-24 text-left font-semibold tabular-nums">{fmt(totals[ i ])}</div>
-            </li>
-          ))}
+                <div className="w-24 text-left font-semibold tabular-nums">{fmt(totals[ i ])}</div>
+              </li>
+            );
+          })}
         </ul>
 
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex gap-2 ">
           <button
             onClick={() => setQty(Array(COUNT).fill(""))}
-            className="flex-1 rounded-lg bg-white py-2 text-sm text-slate-600 shadow-sm"
+            className="flex-1 rounded-lg bg-red-500 py-2 text-sm text-black shadow-sm"
           >
             مسح الأعداد
           </button>
@@ -131,9 +136,15 @@ export default function App() {
       </div>
 
       <footer className="fixed inset-x-0 bottom-0 bg-slate-900 p-4 text-white">
-        <div className="mx-auto flex max-w-xl items-center justify-between">
-          <span className="text-lg">الإجمالي</span>
-          <span className="text-2xl font-bold tabular-nums">{fmt(grandTotal)}</span>
+        <div className="mx-auto max-w-xl space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="text-lg">عدد الاصناف</span>
+            <span className="text-2xl font-bold tabular-nums">{fmt(uniqueProducts)}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-lg">الإجمالي</span>
+            <span className="text-2xl font-bold tabular-nums">{fmt(grandTotal)}</span>
+          </div>
         </div>
       </footer>
     </div>
